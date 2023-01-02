@@ -34,22 +34,27 @@ fn App(props: &Props) -> Html {
     };
 
     //let content = use_state(|| LocalStorage::get_all::<String>());
+    let file_input_node_ref = use_node_ref();
 
     let store = {
         let local_storage = web_sys::window().unwrap().local_storage().unwrap().unwrap();
-        let storage_length = local_storage.length();
-        move |e: InputEvent| {
-            // getting the files
-            let target = e.target_dyn_into::<HtmlInputElement>().unwrap();
-            let files = target.files().unwrap();
-            for i in 0..files.length() { 
-                // getting the blob url
-                let file_blob = files.item(i).unwrap().slice().unwrap();
-                let data_url = Url::create_object_url_with_blob(&file_blob);
-                // setting local storage
-                //local_storage.set_item(key, value)?;
+        let storage_length = local_storage.length().unwrap();
+        let file_input_node_ref = file_input_node_ref.clone();
+
+        Callback::from( move |_| {
+            if let Some(input) = file_input_node_ref.cast::<HtmlInputElement>() {
+                let files = input.files().unwrap();
+                for i in 0..files.length() { 
+                    // getting the blob url
+                    let file_blob = files.item(i).unwrap().slice().unwrap();
+                    let data_url = Url::create_object_url_with_blob(&file_blob);
+                    // setting local storage
+                    info!("{}", &storage_length);
+                    let key = format!("jcm_{}", &storage_length + i);
+                    local_storage.set_item(&key, &data_url.unwrap()).expect("couldn't set local storage");
+                }
             }
-        }
+        })
     };
 
     html! {
@@ -58,7 +63,7 @@ fn App(props: &Props) -> Html {
             if *active {
                 <div onclick={close}>{"x"}</div>
                 <div style={ props.selection_box_style.clone() }>
-                    <input oninput={store} type="file" accept="image/png, image/jpeg, image/webp" multiple=true/>
+                    <input ref={file_input_node_ref} onchange={store} type="file" accept="image/png, image/jpeg, image/webp" multiple=true/>
                     {"content"}
                 </div>
             }
