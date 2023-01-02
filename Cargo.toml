@@ -1,0 +1,24 @@
+[package]
+name = "Judit_ContentManager"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+yew = { version = "0.20.0", features = ["csr"] }
+web-sys = { version="0.3.60", features=["HtmlInputElement", "FileReader", "File", "FileList", "Blob", "Url", "Storage"] }
+
+
+# css utilities
+rusty-css = { git="https://github.com/DavidCks/rusty-css.git", branch = "main" }
+
+# used for making structs iterable
+bevy_reflect = "0.9.1"
+
+# used for the convenience of not having to write .to_string() after every &str
+append_to_string = "0.1.0"
+
+# used for logging to the dev tools console in the browser
+wasm-logger = "0.2"
+log = "0.4.6"
