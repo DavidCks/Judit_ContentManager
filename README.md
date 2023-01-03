@@ -1,1 +1,3 @@
-# Judit_ContentManager
+# Image Manager Stroing Images in Local Storage
+----
+written in rust for later integration in my open-source no-code website design tool Judit
