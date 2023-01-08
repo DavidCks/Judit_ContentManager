@@ -5,7 +5,7 @@ use append_to_string::*;
 #[derive(Reflect, PartialEq)]
 pub struct SelectionBoxStyle {
     width: String,
-    max_height: String,
+    height: String,
     overflow: String,
     display: String,
     grid_template_columns: String,
@@ -23,7 +23,7 @@ impl Style for SelectionBoxStyle {
         append_to_string!( 
             Self {
                 width: "400%",
-                max_height: "50vh",
+                height: "50vh",
                 overflow: "auto",
                 display: "grid",
                 grid_template_columns: "1fr 1fr 1fr 1fr", 
